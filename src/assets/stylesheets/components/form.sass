@@ -1,0 +1,44 @@
+.form
+  position: relative
+
+  &__title
+    size: 16px
+    line-height: 20px
+    font-weight: 500
+    color: #fff
+    padding: 18px 102px
+    position: absolute
+    border-radius: 5px
+    top: 0%
+    left: 50%
+    transform: translate(-50%, -35%)
+
+    &--secondary
+      background-color: $color-primary-dark
+
+  &--center
+    position: absolute
+    top: 50%
+    transform: translate(-50%, -50%)
+    left: 50%
+
+  &__inner
+    width: 340px
+    padding: 20px
+    padding-top: 86px
+    background-color: #fff
+    border-radius: 5px
+
+  &__btn
+    
+    &--center
+      display: flex
+      justify-content: center
+
+.bg-image
+  background-image: url('../../assets/images/bg-town.jpeg') !important
+  background-repeat: no-repeat
+  background-size: cover
+  background-position: bottom center
+  height: 100vh
+  width: 100%

@@ -1,0 +1,11 @@
+=media-desktop
+  @media (min-width: #{$desktop})
+    @content
+
+=media-tablet 
+  @media (min-width: #{$tablet}) and (max-width: #{$desktop - 1px})
+    @content
+
+=media-mobile
+  @media (max-width: #{$tablet - 1px})
+    @content
