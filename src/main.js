@@ -4,11 +4,9 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from './plugins/axios'
-import dayjs from 'dayjs'
 import util from './mixins/util'
 import VueTheMask from 'vue-the-mask'
 
-Vue.prototype.$dayjs = dayjs
 Vue.prototype.$http = axios
 
 Vue.use(VueTheMask)

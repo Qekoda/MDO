@@ -8,13 +8,6 @@
         </div>
       </v-card-title>
       <v-card-text>
-        <!-- Когда заходишь на страницу создания, должен происходить запрос за всеми premise с ?search='' -->
-        <!-- Когда вводишь какие то данные в поле дом, должен происходить запрос за всеми premise с ?search=q -->
-        <!-- Когда выбираешь какой то дом, должен происходить запрос за квартирами с ?premise_id=id&search='' -->
-        <!-- Когда вводишь в поле квартиры что то должен происходить запрос за квартирами с ?premise_id=id&search=q -->
-        <!-- когда дом удаляется apartments очищаются -->
-        
-        <!-- При редактировании формы должна открываться с заполненными полями -->
         <v-row>
           <v-col>
             <v-autocomplete
@@ -48,21 +41,21 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="formattedDueDate"
-                  label="Срок"
+                  :error-messages="errors?.due_date"
+                  :value="formatDate(localAppeal.due_date)"
                   append-icon="mdi-calendar"
+                  label="Срок"
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  :error-messages="errors?.due_date"
-                ></v-text-field>
+                />
               </template>
               <v-date-picker
+                v-model="localAppeal.due_date"
                 no-title
                 locale="ru-ru"
-                v-model="localAppeal.due_date"
                 @input="updateDueDate"
-              ></v-date-picker>
+              />
             </v-menu>
           </v-col>
         </v-row>
@@ -71,30 +64,26 @@
             <v-text-field
               label="Фамилия"
               v-model="localAppeal.applicant.last_name"
-            >
-            </v-text-field>
+            />
           </v-col>
           <v-col>
             <v-text-field
               label="Имя"
               v-model="localAppeal.applicant.first_name"
-            >
-            </v-text-field>
+            />
           </v-col>
           <v-col>
             <v-text-field
               label="Отчество"
               v-model="localAppeal.applicant.patronymic_name"
-            >
-            </v-text-field>
+            />
           </v-col>
           <v-col>
             <v-text-field
               label="Телефон"
-              v-mask="'+# (###) ###-####'"
               v-model="localAppeal.applicant.username"
-            >
-            </v-text-field>
+              v-mask="'+# (###) ###-####'"
+            />
           </v-col>
         </v-row>
         <v-row>
@@ -103,7 +92,7 @@
               v-model="localAppeal.description"
               label="Описание"
               auto-grow
-            ></v-textarea>
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -112,16 +101,17 @@
           type="submit"
           color="primary"
         >
-        {{ appeal ? 'Обновить' : 'Создать' }}
-      </v-btn>
+          {{ appeal ? 'Обновить' : 'Создать' }}
+        </v-btn>
       </v-card-actions>
     </form>
   </v-card>
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from 'vuex'
 import debounce from 'debounce'
+import { mapActions, mapState, mapMutations } from 'vuex'
+
 export default {
   props: {
     appeal: {
@@ -129,6 +119,7 @@ export default {
       default: null
     }
   },
+  emits: ['update'],
   data() {
     return {
       searchPremise: '',
@@ -141,11 +132,6 @@ export default {
     ...mapState('premises', ['userPremises']),
     ...mapState('apartments', ['apartments']),
     ...mapState('errors', ['errors']),
-    formattedDueDate() {
-      return this.localAppeal.due_date
-        ? this.$dayjs(this.localAppeal.due_date).format('DD-MM-YYYY')
-        : ''
-    },
   },
   methods: {
     ...mapActions('appeals', ['createAppeal', 'updateAppeal']),
@@ -171,9 +157,11 @@ export default {
       }
       this.getApartments(params)
     }, 300),
+    updateDueDate(date) {
+      this.localAppeal.due_date = new Date(date).toISOString()
+      this.isShowDatepicker = false;
     },
-    getApartsForAppeal(value) {
-      this.localAppeal.premise_id = value
+    getApartsForAppeal() {
       if (this.localAppeal.premise_id) {
         this.getApartments({ premise_id: this.localAppeal.premise_id })
       }

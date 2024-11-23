@@ -31,6 +31,7 @@ export default {
       required: true
     }
   },
+  emits: ['input'],
   computed: {
     start() {
       return (this.currentPage -1) * this.value + 1

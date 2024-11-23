@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 export default {
   methods: {
     formatDate(date) {
+      if (!date) return ''
       return dayjs(date).format('DD.MM.YYYY')
     },
     formatDateWithTime(date) {
