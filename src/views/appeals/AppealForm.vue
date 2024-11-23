@@ -125,7 +125,7 @@ export default {
       searchPremise: '',
       searchApartment: '',
       isShowDatepicker: false,
-      localAppeal: this.appeal ? this.setAppealCopy() : this.setEmptyAppeal()
+      localAppeal: this.setAppeal(this.appeal)
     }
   },
   computed: {
@@ -179,37 +179,22 @@ export default {
         .then(() => this.$emit('update'))
         .catch(() => alert('Произошла ошибка при создании заявки'))
     },
-    setEmptyAppeal() {
+    setAppeal(appeal) {
       return {
-        premise_id: '',
-        apartment_id: '',
+        id: appeal?.id || null,
+        created_at: appeal?.created_at || '',
+        number: appeal?.number || '',
+        premise_id: appeal?.premise?.id || null,
+        apartment_id: appeal?.apartment?.id || null,
         applicant: {
-          last_name: '',
-          first_name: '',
-          patronymic_name: '',
-          username: ''
+          last_name: appeal?.applicant?.last_name || '',
+          first_name: appeal?.applicant?.first_name || '',
+          patronymic_name: appeal?.applicant?.patronymic_name || '',
+          username: appeal?.applicant?.username || '',
         },
-        description: '',
-        due_date: '',
-        status_id: 1,
-      }
-    },
-    setAppealCopy() {
-      return {
-        id: this.appeal.id,
-        created_at: this.appeal.created_at,
-        number: this.appeal.number,
-        premise_id: this.appeal.premise?.id || '',
-        apartment_id: this.appeal.apartment?.id || null,
-        applicant: {
-          last_name: this.appeal.applicant?.last_name || '',
-          first_name: this.appeal.applicant?.first_name || '',
-          patronymic_name: this.appeal.applicant?.patronymic_name || '',
-          username: this.appeal.applicant?.username || '',
-        },
-        description: this.appeal.description || '',
-        due_date: this.appeal.due_date || '',
-        status: this.appeal.status?.name || ''
+        description: appeal?.description || '',
+        due_date: appeal?.due_date || '',
+        status: appeal?.status?.name || 1
       }
     }
   }
