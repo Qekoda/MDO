@@ -153,11 +153,7 @@ export default {
     ...mapActions('apartments', ['getApartments']),
     ...mapMutations('apartments', ['CLEAR_APARTMENTS']),
     ...mapMutations('errors', ['SET_ERROR']),
-    updateDueDate(date) {
-      this.localAppeal.due_date = new Date(date).toISOString()
-      this.isShowDatepicker = false;
-    },
-    getUserPremisesLink(searchText = "") {
+    getUserPremisesLink: debounce(function(searchText = "") {
       this.getUserPremises({ search: searchText })
         .then(() => {
           if (!this.localAppeal.premise_id) {
@@ -166,14 +162,15 @@ export default {
           }
         })
         .catch(() => alert('Произошла ошибка при получении списка помещений'))
-    },
-    getAparts(value) {
+    }, 300),
+    getAparts: debounce(function(value) {
       if (!this.localAppeal.premise_id) return
       const params = { 
         premise_id: this.localAppeal.premise_id, 
         search: value
       }
       this.getApartments(params)
+    }, 300),
     },
     getApartsForAppeal(value) {
       this.localAppeal.premise_id = value
