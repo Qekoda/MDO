@@ -15,6 +15,7 @@
               Создать
             </v-btn>
             <v-dialog
+              v-if="isShowFormCreate"
               v-model="isShowFormCreate"
               width="60%"
               @click:outside="closeForm(true)"
