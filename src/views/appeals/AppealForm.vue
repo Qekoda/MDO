@@ -4,7 +4,7 @@
       <v-card-title>
         <div class="d-flex justify-space-between flex-fill">
           <p>{{ appeal? `Заявка № ${localAppeal.number} (от ${formatDate(localAppeal.created_at)})` : 'Создание заявки'}}</p>
-          <p>{{ appeal? localAppeal.status.name : localAppeal.status}}</p>
+          <p>{{ appeal? localAppeal.status : 'Новая'}}</p>
         </div>
       </v-card-title>
       <v-card-text>

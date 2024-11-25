@@ -20,7 +20,7 @@
               width="60%"
               @click:outside="closeForm(true)"
             >
-              <appeals-form @update="closeForm" />
+              <appeal-form @update="closeForm" />
             </v-dialog>
           </div>
         </v-row>
@@ -70,7 +70,7 @@
             :value="isShowFormEdit === item.id"
             @click:outside="closeForm(true)"
           >
-            <appeals-form
+            <appeal-form
               :appeal="item"
               @update="closeForm"
             />
@@ -121,13 +121,13 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 import AppPagination from '@/components/AppPagination.vue'
 import AppPageSize from '@/components/AppPageSize.vue'
-import AppealsForm from './AppealForm.vue'
+import AppealForm from './AppealForm.vue'
 
 export default {
   components: {
     AppPagination,
     AppPageSize,
-    AppealsForm
+    AppealForm
   },
   data() {
     return {
